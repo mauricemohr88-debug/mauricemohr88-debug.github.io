@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+---
+<Base title="GTA 6 spoilerfrei bleiben" description="Neuseeland spielt GTA 6 Stunden vor uns. So filterst du TikTok, YouTube und Kommentare, bis du selbst spielst.">
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / <a href="/guides/">Guides</a> / Spoilerfrei</div>
+      <h1>Spoilerfrei bis<br /><span class="sun-text">zum eigenen Start</span></h1>
+      <p class="lead"><Fact k="nz_first" /> Ab dann landen Story-Szenen in deinem Feed.</p>
+    </header>
+    <div class="prose">
+      <div class="detail reveal"><span class="n">01</span><div><h3>TikTok: Schlüsselwörter filtern</h3><p>In den Einstellungen kannst du Videos mit bestimmten Wörtern ausblenden. Sinnvoll sind GTA 6, GTA VI, Lucia, Jason und Ending. Die genauen Menünamen ändern sich mit jeder App-Version.</p></div></div>
+      <div class="detail reveal"><span class="n">02</span><div><h3>YouTube: „Kein Interesse“</h3><p>Taucht ein Story-Video auf, tippe auf die drei Punkte und wähle „Kein Interesse“ oder „Kanal nicht empfehlen“. Je früher du das machst, desto schneller lernt dein Feed.</p></div></div>
+      <div class="detail reveal"><span class="n">03</span><div><h3>Kommentare meiden</h3><p>Unter Clips stehen Spoiler oft zuerst in den Kommentaren. Heute lieber geschlossen lassen.</p></div></div>
+      <div class="detail reveal"><span class="n">04</span><div><h3>Unser Versprechen</h3><p>Keine Story-Spoiler in Titeln, Hooks oder Vorschaubildern. Story-Inhalte kennzeichnen wir immer mit SPOILER.</p></div></div>
+    </div>
+    <Sources keys={['vice']} />
+  </div>
+</Base>

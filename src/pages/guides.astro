@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+const live = [
+  ['/startzeiten/', 'clock', 'Live', 'Startzeiten', 'Elf Zeitzonen in deiner Uhrzeit.'],
+  ['/ps5-checkliste/', 'hard-drive', 'Checkliste', 'PS5-Check', 'Speicher, Vorab-Download, Update.'],
+  ['/spoilerfrei/', 'eye-off', 'Guide', 'Spoilerfrei bleiben', 'TikTok, YouTube und Kommentare filtern.'],
+  ['/bestaetigt/', 'shield-check', 'Fakten', 'Offiziell bestätigt', 'Alles Belegte an einem Ort.'],
+  ['/figuren/', 'users', 'Lexikon', 'Figuren', 'Jason, Lucia und sechs weitere.'],
+  ['/leonida/', 'map', 'Lexikon', 'Leonida', 'Sechs Regionen, offizielle Bilder.'],
+  ['/versteckte-details/', 'sparkles', 'Details', 'Versteckte Details', 'Was fast keiner bemerkt hat.'],
+];
+const soon = [
+  ['map-pin', 'Karte von Leonida', 'Orte und Fundstellen, sobald belegt.'],
+  ['gamepad-2', 'Schnell Geld verdienen', 'Die besten Wege für den Start.'],
+  ['radio', 'Alle Radiosender', 'Sender, Stile, Moderatoren.'],
+  ['film', 'Missionen ohne Spoiler', 'Tipps, ohne die Story zu verraten.'],
+];
+---
+<Base title="GTA 6 Guides auf Deutsch" description="Alle GTA-6-Guides auf Deutsch: Startzeiten, PS5-Check, Spoiler-Schutz, Figuren, Leonida, versteckte Details und mehr.">
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Guides</div>
+      <h1>Alle <span class="sun-text">Guides</span></h1>
+      <p class="lead">Wir veröffentlichen nur, was belegt ist. Ab Release kommen jeden Tag neue Guides dazu.</p>
+    </header>
+    <div class="grid g3" data-stagger>
+      {live.map(([href, icon, pill, title, text]) => (
+        <a class="card" href={href}><span class="ico"><Icon name={icon} /></span><span class={`pill${pill === 'Live' ? ' live' : ''}`}>{pill}</span><h3>{title}</h3><p>{text}</p></a>
+      ))}
+    </div>
+    <section class="section">
+      <span class="eyebrow">In Arbeit</span>
+      <h2>Ab Release</h2>
+      <div class="grid g4" data-stagger>
+        {soon.map(([icon, title, text]) => (
+          <div class="card soon"><span class="ico"><Icon name={icon} /></span><span class="pill soon">Bald</span><h3>{title}</h3><p>{text}</p></div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>

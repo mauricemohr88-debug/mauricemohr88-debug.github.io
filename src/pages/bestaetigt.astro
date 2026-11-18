@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+import Icon from '../components/Icon.astro';
+import ultimate from '../assets/rockstar/ultimate-edition.jpg';
+import vintage from '../assets/rockstar/vintage-pack.jpg';
+const facts = ['release', 'midnight', 'nz_first', 'setting', 'duo', 'storage', 'preload', 'trailers', 'gallery'] as const;
+---
+<Base title="Was zu GTA 6 offiziell bestätigt ist" description="Alle offiziell bestätigten Fakten zu GTA 6 an einem Ort: Release, Plattformen, Startzeit, Schauplatz, Figuren, Editionen und PS5-Speicher." image={ultimate}>
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Offiziell bestätigt</div>
+      <h1>Nur was<br /><span class="sun-text">bestätigt</span> ist</h1>
+      <p class="lead">Keine Gerüchte, keine Leaks. Diese Liste wächst nur mit offiziellen oder geprüften Quellen.</p>
+    </header>
+    <div class="prose" data-stagger>
+      {facts.map((k) => (
+        <div class="detail"><span class="n"><Icon name="shield-check" size={34} /></span><div><p><Fact k={k} /></p></div></div>
+      ))}
+    </div>
+
+    <section class="section">
+      <span class="eyebrow pink">Editionen</span>
+      <h2>Ultimate Edition &amp; Vorbesteller-Bonus</h2>
+      <div class="grid g2" data-stagger>
+        <div class="tile tall"><Image src={ultimate} alt="Ultimate Edition, offizieller Screenshot" widths={[600, 1100]} sizes="(min-width: 900px) 50vw, 100vw" /><h3>Ultimate Edition</h3><p><Fact k="ultimate" /></p></div>
+        <div class="tile tall"><Image src={vintage} alt="Vintage Vice City Pack, offizieller Screenshot" widths={[600, 1100]} sizes="(min-width: 900px) 50vw, 100vw" /><h3>Vintage Vice City Pack</h3><p><Fact k="vintage" /></p></div>
+      </div>
+    </section>
+    <Sources keys={['rockstar', 'leonida', 'media', 'vice', 'pcgamer']} />
+  </div>
+</Base>

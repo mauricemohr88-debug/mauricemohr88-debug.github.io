@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Sources from '../components/Sources.astro';
+import { DETAILS } from '../data/world';
+import { SOURCE_ORDER, SOURCES } from '../data/facts';
+import bg from '../assets/rockstar/vintage-pack.jpg';
+---
+<Base title="GTA 6: Versteckte Details aus offiziellen Infos" description="Liberty City, ein Grotti Cheetah von 1995, Only Raw Records: Details aus den offiziellen GTA-6-Infos, die fast keiner bemerkt hat." image={bg}>
+  <header class="page-head with-img">
+    <Image class="bg" src={bg} alt="" widths={[800, 1600]} sizes="100vw" loading="eager" />
+    <div class="wrap" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Versteckte Details</div>
+      <h1>Hast du<br /><span class="sun-text">das gesehen?</span></h1>
+      <p class="lead">Kleinigkeiten aus Rockstars eigenen Texten und Bildtiteln. Kein Gerücht, kein Leak, alles mit Quelle.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="prose" data-stagger>
+      {DETAILS.map((d, i) => (
+        <div class="detail" id={(d as any).slug}>
+          <span class="n">{String(i + 1).padStart(2, '0')}</span>
+          <div><h3>{d.title}</h3><p>{d.text}<a class="ref" href={`/quellen/#q-${d.src}`} title={SOURCES[d.src].name}>{SOURCE_ORDER.indexOf(d.src) + 1}</a></p></div>
+        </div>
+      ))}
+    </div>
+    <p class="muted" style="margin-top:24px">Neue Details kommen laufend dazu, ab Release auch aus dem Spiel selbst.</p>
+    <Sources keys={['launch', 'leonida', 'media']} />
+  </div>
+</Base>

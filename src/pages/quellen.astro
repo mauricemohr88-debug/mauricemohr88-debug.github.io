@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import { SOURCES, SOURCE_ORDER, FACTS, UPDATED, fmtDate } from '../data/facts';
+---
+<Base title="Alle Quellen" description="Alle Fakten auf Sechster Stern mit Quelle und Prüfdatum.">
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Quellen</div>
+      <h1>Alle <span class="sun-text">Quellen</span></h1>
+      <p class="lead">Jede Angabe auf dieser Seite hat eine Quelle. Zuletzt geprüft am {fmtDate(UPDATED)}.</p>
+    </header>
+    <div class="prose">
+      {SOURCE_ORDER.map((k, i) => (
+        <section class="detail" id={`q-${k}`}>
+          <span class="n">{i + 1}</span>
+          <div>
+            <h3><a href={SOURCES[k].url} target="_blank" rel="noopener">{SOURCES[k].name}</a></h3>
+            <ul class="muted">{Object.values(FACTS).filter((f) => (f.src as readonly string[]).includes(k)).map((f) => <li>{f.text}</li>)}</ul>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,21 @@
+{
+  "name": "sechster-stern",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && pagefind --site dist",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/instrument-sans": "5.3.0",
+    "@fontsource/anton": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "astro": "7.4.5",
+    "gsap": "3.15.0",
+    "lucide-static": "1.66.0"
+  },
+  "devDependencies": {
+    "pagefind": "1.6.0"
+  }
+}

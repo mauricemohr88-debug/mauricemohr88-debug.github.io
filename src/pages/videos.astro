@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ShortEmbed from '../components/ShortEmbed.astro';
+import { SHORTS } from '../data/videos';
+---
+<Base title="GTA 6 Shorts auf Deutsch" description="Die besten GTA-6-Momente und Details als Shorts, auf Deutsch erklärt. Vom Kanal Sechster Stern.">
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Videos</div>
+      <h1>Die <span class="sun-text">Shorts</span></h1>
+      <p class="lead">Jeden Tag Momente und Details aus GTA 6, auf Deutsch erklärt, in unter 60 Sekunden. Zu jedem Short gibt es hier den Guide mit Quellen.</p>
+      <div class="btns"><a class="btn" href="https://www.youtube.com/@gta6sechsterstern?sub_confirmation=1" target="_blank" rel="noopener"><Icon name="youtube" size={20} /> Kanal abonnieren</a></div>
+    </header>
+    <div class="grid g4" data-stagger>
+      {SHORTS.map((s) => <ShortEmbed id={s.id} title={s.title} guide={s.guide} poster={s.poster} />)}
+    </div>
+    <p class="muted small" style="margin-top:22px">Datenschutz: Vor dem Klick zeigen wir nur ein eigenes Standbild. Erst beim Abspielen lädt das Video von YouTube.</p>
+  </div>
+</Base>

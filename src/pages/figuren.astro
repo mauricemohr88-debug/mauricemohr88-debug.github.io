@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+import { CHARACTERS } from '../data/world';
+import bg from '../assets/rockstar/jason-lucia-01.jpg';
+---
+<Base title="GTA 6 Figuren: Jason, Lucia und die Crew" description="Alle offiziell vorgestellten Figuren aus GTA 6: Jason Duval, Lucia Caminos, Cal Hampton, Boobie Ike, Dre'Quan Priest, Real Dimez, Raul Bautista und Brian Heder." image={bg}>
+  <header class="page-head with-img">
+    <Image class="bg" src={bg} alt="" widths={[800, 1600]} sizes="100vw" loading="eager" />
+    <div class="wrap" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Figuren</div>
+      <h1>Wer ist wer<br />in <span class="sun-text">Leonida</span></h1>
+      <p class="lead"><Fact k="duo" /> Dazu kommen sechs weitere Figuren, die Rockstar offiziell vorgestellt hat.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="grid g2" data-stagger>
+      {CHARACTERS.map((c) => (
+        <article class="char" id={c.slug}>
+          <figure><Image src={c.img} alt={`${c.name}, offizieller Screenshot`} widths={[500, 900]} sizes="(min-width: 900px) 50vw, 100vw" /></figure>
+          <div class="body"><span class="eyebrow">{c.role}</span><h3>{c.name}</h3><p>{c.text}</p></div>
+        </article>
+      ))}
+    </div>
+    <p class="muted small" style="margin-top:20px">Zusammenfassungen in eigenen Worten nach den offiziellen Figurenbeschreibungen von Rockstar. Bilder © Rockstar Games.</p>
+    <Sources keys={['rockstar', 'leonida']} />
+  </div>
+</Base>

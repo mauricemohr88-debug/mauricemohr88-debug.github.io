@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+import { REGIONS } from '../data/world';
+import bg from '../assets/rockstar/leonida-keys.jpg';
+---
+<Base title="Leonida: Vice City und alle Regionen" description="Die offiziell gezeigten Regionen von Leonida in GTA 6: Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia und Mount Kalaga National Park." image={bg}>
+  <header class="page-head with-img">
+    <Image class="bg" src={bg} alt="" widths={[800, 1600]} sizes="100vw" loading="eager" />
+    <div class="wrap" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Leonida</div>
+      <h1>Ein Staat,<br /><span class="sun-text">sechs Gesichter</span></h1>
+      <p class="lead"><Fact k="setting" /> Rockstar hat bisher diese sechs Regionen mit eigenen Bildern gezeigt.</p>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="grid g2" data-stagger>
+      {REGIONS.map((r, i) => (
+        <section class="tile tall" id={r.slug} aria-label={r.name}>
+          <Image src={r.img} alt={`${r.name}, offizieller Screenshot`} widths={[600, 1100]} sizes="(min-width: 900px) 50vw, 100vw" />
+          <span class="num">{String(i + 1).padStart(2, '0')} / 06</span>
+          <h3>{r.name}</h3>
+          <p>Offizieller Screenshot. Orte und Fundstellen tragen wir ein, sobald sie belegt sind.</p>
+        </section>
+      ))}
+    </div>
+    <div class="note cyan reveal" style="margin-top:28px"><strong>Interaktive Karte:</strong> Sobald es belegte Orte gibt, bauen wir hier eine eigene Karte von Leonida mit Fundstellen. Ohne Leaks, nur mit geprüften Infos.</div>
+    <Sources keys={['rockstar', 'leonida', 'media']} />
+  </div>
+</Base>

@@ -1,0 +1,8 @@
+---
+import { FACTS, SOURCE_ORDER, SOURCES, type FactKey } from '../data/facts';
+interface Props { k: FactKey }
+const f = FACTS[Astro.props.k];
+---
+{f.text}{f.src.map((s) => (
+  <a class="ref" href={`/quellen/#q-${s}`} title={SOURCES[s].name}>{SOURCE_ORDER.indexOf(s) + 1}</a>
+))}

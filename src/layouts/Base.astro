@@ -1,0 +1,154 @@
+---
+import '@fontsource/anton/400.css';
+import '@fontsource-variable/instrument-sans';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Icon from '../components/Icon.astro';
+import { UPDATED, fmtDate } from '../data/facts';
+import ogDefault from '../assets/rockstar/vice-city-27.jpg';
+import { getImage } from 'astro:assets';
+
+interface Props { title: string; description: string; image?: ImageMetadata; noindex?: boolean }
+const { title, description, image = ogDefault, noindex = false } = Astro.props;
+const og = await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const path = Astro.url.pathname;
+const nav = [
+  ['Startzeiten', '/startzeiten/'],
+  ['Figuren', '/figuren/'],
+  ['Leonida', '/leonida/'],
+  ['Details', '/versteckte-details/'],
+  ['Guides', '/guides/'],
+  ['Videos', '/videos/'],
+];
+const fullTitle = path === '/' ? 'Sechster Stern · GTA 6 auf Deutsch' : `${title} · Sechster Stern`;
+const canonical = new URL(path, Astro.site).href;
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': path === '/' ? 'WebSite' : 'Article',
+  name: fullTitle, headline: title, description, url: canonical, inLanguage: 'de-DE',
+  dateModified: UPDATED, publisher: { '@type': 'Organization', name: 'Sechster Stern' },
+};
+---
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:site_name" content="Sechster Stern" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(og.src, Astro.site).href} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0614" />
+  <link rel="icon" href="/icon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  <ClientRouter />
+</head>
+<body>
+  <a class="skip" href="#main">Zum Inhalt</a>
+  <header class="top" data-top transition:persist>
+    <div class="wrap top-in">
+      <a class="brand" href="/" aria-label="Sechster Stern, Startseite">
+        <img src="/icon.png" alt="" width="34" height="34" />
+        <span class="brand-name">Sechster<b>Stern</b></span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Hauptmenü">
+        {nav.map(([label, href]) => <a href={href} data-nav={href}>{label}</a>)}
+      </nav>
+      <a class="icon-btn" href="/suche/" aria-label="Suche" data-astro-reload><Icon name="search" size={20} /></a>
+      <button class="icon-btn menu-btn" aria-expanded="false" aria-controls="nav" aria-label="Menü öffnen">
+        <Icon name="menu" size={22} class="i-open" /><Icon name="x" size={22} class="i-close" />
+      </button>
+    </div>
+  </header>
+
+  <main id="main" data-pagefind-body transition:animate="fade">
+    <span data-pagefind-meta="title" hidden>{title}</span>
+    <slot />
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="foot-brand">Sechster<b>Stern</b></div>
+          <p class="muted">Deutsche Fanseite zu GTA 6. Schnell, geprüft, ohne Spoiler.</p>
+          <p class="muted small">Nicht mit Rockstar Games oder Take-Two Interactive verbunden. Grand Theft Auto, alle Screenshots und Trailer-Ausschnitte © Rockstar Games, verwendet als offiziell zum Teilen bereitgestelltes Material.</p>
+        </div>
+        <div class="foot-col">
+          <span class="eyebrow">Seite</span>
+          <a href="/guides/">Guides</a><a href="/bestaetigt/">Offiziell bestätigt</a><a href="/quellen/">Alle Quellen</a><a href="/suche/" data-astro-reload>Suche</a>
+        </div>
+        <div class="foot-col">
+          <span class="eyebrow">Kanal</span>
+          <a href="https://www.youtube.com/@gta6sechsterstern" target="_blank" rel="noopener">YouTube <Icon name="arrow-up-right" size={14} /></a>
+          <a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a>
+        </div>
+      </div>
+      <div class="foot-base mono">STAND {fmtDate(UPDATED)} · KEINE COOKIES · KEIN TRACKING</div>
+    </div>
+  </footer>
+
+  <script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    gsap.registerPlugin(ScrollTrigger);
+    const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Einmalig: Menü, Kopfzeile, Video-Klicks (Delegation überlebt Seitenwechsel)
+    const nav = document.getElementById('nav');
+    const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+    const setMenu = (open: boolean) => {
+      nav?.classList.toggle('open', open);
+      btn?.setAttribute('aria-expanded', String(open));
+      document.body.classList.toggle('menu-open', open);
+    };
+    btn?.addEventListener('click', () => setMenu(!nav?.classList.contains('open')));
+    const top = document.querySelector('[data-top]');
+    const onScroll = () => top?.classList.toggle('scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    document.addEventListener('click', (e) => {
+      const play = (e.target as HTMLElement).closest('.short-play');
+      if (!play) return;
+      const frame = play.closest<HTMLElement>('[data-yt]');
+      if (!frame) return;
+      const id = frame.dataset.yt;
+      frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="YouTube-Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    });
+
+    // Bei jedem Seitenaufruf (auch nach Seitenwechsel)
+    document.addEventListener('astro:page-load', () => {
+      setMenu(false);
+      onScroll();
+      const path = location.pathname;
+      document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach((a) => {
+        if (path.startsWith(a.dataset.nav!)) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      });
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+      if (reduce()) return;
+      gsap.from('[data-hero] > *', { y: 24, opacity: 0, duration: 0.6, stagger: 0.05, ease: 'power3.out', clearProps: 'all' });
+      gsap.utils.toArray<HTMLElement>('.reveal').forEach((el) => {
+        gsap.from(el, { y: 36, opacity: 0, duration: 0.8, ease: 'power3.out', clearProps: 'all',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
+      });
+      gsap.utils.toArray<HTMLElement>('[data-stagger]').forEach((wrap) => {
+        gsap.from(wrap.children, { y: 30, opacity: 0, duration: 0.7, stagger: 0.07, ease: 'power3.out', clearProps: 'all',
+          scrollTrigger: { trigger: wrap, start: 'top 85%', once: true } });
+      });
+      gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((el) => {
+        gsap.to(el, { yPercent: 12, ease: 'none', scrollTrigger: { trigger: el.parentElement!, scrub: true } });
+      });
+    });
+  </script>
+</body>
+</html>

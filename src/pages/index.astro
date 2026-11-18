@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+import { CHARACTERS, REGIONS, DETAILS } from '../data/world';
+import { SHORTS } from '../data/videos';
+import ShortEmbed from '../components/ShortEmbed.astro';
+import hero from '../assets/rockstar/vice-city-27.jpg';
+const ticker = ['19. November 2026', 'Mitternacht Ortszeit', 'Neuseeland zuerst', 'PS5: 212 GB frei', 'Vice City · Leonida', 'Jason & Lucia'];
+---
+<Base title="GTA 6 auf Deutsch" description="GTA 6 auf Deutsch: Live-Countdown, Startzeiten in deiner Zeitzone, alle Figuren, Leonida und versteckte Details. Jede Angabe mit Quelle.">
+  <section class="hero">
+    <div class="hero-media" data-parallax>
+      <Image src={hero} alt="Vice City bei Nacht, offizieller Screenshot" widths={[800, 1400, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+    </div>
+    <div class="wrap hero-in" data-hero>
+      <span class="eyebrow">GTA 6 · auf Deutsch · ohne Spoiler</span>
+      <h1>Willkommen in <span class="sun-text">Leonida.</span></h1>
+      <p class="lead">Startzeiten, Figuren, Orte und die Details, die fast keiner sieht. Schnell, geprüft und immer mit Quelle.</p>
+      <div class="cd" data-countdown aria-live="polite"></div>
+      <p class="cd-note">bis zur Freischaltung bei dir · <span data-mytz></span><br /><span data-firstlive></span></p>
+      <div class="btns">
+        <a class="btn" href="/startzeiten/">Alle Startzeiten <Icon name="arrow-right" size={18} /></a>
+        <a class="btn ghost" href="/versteckte-details/">Versteckte Details</a>
+      </div>
+    </div>
+    <span class="credit">Screenshot © Rockstar Games</span>
+  </section>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">{[...ticker, ...ticker].map((t) => <span>{t}</span>)}</div>
+  </div>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal"><div><span class="eyebrow pink">Heute wichtig</span><h2>Bereit für den Start</h2></div></div>
+      <div class="grid g3" data-stagger>
+        <a class="card" href="/startzeiten/"><span class="ico"><Icon name="clock" /></span><span class="pill live">Live</span><h3>Wann startet GTA 6 bei dir?</h3><p>Elf Zeitzonen, live in deine Uhrzeit umgerechnet.</p></a>
+        <a class="card" href="/ps5-checkliste/"><span class="ico"><Icon name="hard-drive" /></span><span class="pill">Checkliste</span><h3>PS5-Check</h3><p>212 GB, Vorab-Download, Update. Abhaken und loslegen.</p></a>
+        <a class="card" href="/spoilerfrei/"><span class="ico"><Icon name="eye-off" /></span><span class="pill">Guide</span><h3>Spoilerfrei bleiben</h3><p>Neuseeland spielt Stunden vor uns. So filterst du deinen Feed.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Die Crew</span><h2>Wer ist wer</h2></div>
+        <a class="link-arrow" href="/figuren/">Alle 8 Figuren <Icon name="arrow-right" size={16} /></a>
+      </div>
+      <div class="grid g4" data-stagger>
+        {CHARACTERS.slice(0, 4).map((c, i) => (
+          <a class="tile tall" href={`/figuren/#${c.slug}`}>
+            <Image src={c.img} alt={`${c.name}, offizieller Screenshot`} widths={[400, 700]} sizes="(min-width: 900px) 25vw, 100vw" />
+            <span class="num">{String(i + 1).padStart(2, '0')} · {c.role}</span>
+            <span class="go"><Icon name="arrow-up-right" size={18} /></span>
+            <h3>{c.name}</h3>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Die Karte</span><h2>Sechs Orte, ein Staat</h2></div>
+        <a class="link-arrow" href="/leonida/">Leonida entdecken <Icon name="arrow-right" size={16} /></a>
+      </div>
+      <div class="grid g3" data-stagger>
+        {REGIONS.map((r, i) => (
+          <a class="tile" href={`/leonida/#${r.slug}`}>
+            <Image src={r.img} alt={`${r.name}, offizieller Screenshot`} widths={[500, 900]} sizes="(min-width: 900px) 33vw, 100vw" />
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{r.name}</h3>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow pink">Hast du das gesehen?</span><h2>Versteckte Details</h2></div>
+        <a class="link-arrow" href="/versteckte-details/">Alle Details <Icon name="arrow-right" size={16} /></a>
+      </div>
+      <div class="prose" data-stagger>
+        {DETAILS.slice(0, 3).map((d, i) => (
+          <div class="detail"><span class="n">{String(i + 1).padStart(2, '0')}</span><div><h3>{d.title}</h3><p>{d.text}</p></div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Neu auf dem Kanal</span><h2>Die neuesten Shorts</h2></div>
+        <a class="link-arrow" href="/videos/">Alle Videos <Icon name="arrow-right" size={16} /></a>
+      </div>
+      <div class="grid g4" data-stagger>
+        {SHORTS.slice(0, 4).map((v) => <ShortEmbed id={v.id} title={v.title} guide={v.guide} poster={v.poster} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap">
+      <div class="note cyan reveal">
+        <strong>Die Shorts zur Seite.</strong> Auf unserem Kanal erklären wir jeden Tag Momente und Details aus GTA 6 in unter 60 Sekunden.
+        <a href="/videos/">Zu den Videos</a>
+      </div>
+      <p class="muted small"><Fact k="release" /> <Fact k="setting" /></p>
+      <Sources keys={['rockstar', 'leonida', 'media', 'launch']} />
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { initTime } from '../scripts/time';
+  document.addEventListener('astro:page-load', initTime);
+</script>

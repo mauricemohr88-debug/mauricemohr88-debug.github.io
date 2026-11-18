@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+---
+<Base title="GTA 6 Startzeiten in deiner Zeitzone" description="Wann startet GTA 6? Alle Freischaltzeiten von Neuseeland bis USA, live umgerechnet in deine Uhrzeit. Mit Quellen.">
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / Startzeiten</div>
+      <h1>Wann startet<br /><span class="sun-text">GTA 6</span> bei dir?</h1>
+      <p class="lead">Alle Uhrzeiten sind automatisch in deine Zeitzone umgerechnet: <strong data-mytz></strong>.</p>
+      <div class="cd" data-countdown aria-live="polite"></div>
+      <p class="cd-note">bis zur Freischaltung bei dir</p>
+    </header>
+
+    <div class="prose reveal">
+      <p><Fact k="release" /> <Fact k="midnight" /> <Fact k="nz_first" /></p>
+    </div>
+
+    <section class="section tight">
+      <span class="eyebrow">Freischaltung, in deiner Uhrzeit</span>
+      <div class="tz-list" data-tzlist></div>
+      <p class="small muted" style="margin-top:14px">* <Fact k="us_unclear" /></p>
+    </section>
+
+    <div class="prose">
+      <div class="note reveal"><strong>Live-Stream:</strong> <Fact k="yt_stream" /></div>
+      <p><a href="/ps5-checkliste/">Weiter zur PS5-Checkliste</a> · <a href="/spoilerfrei/">Spoilerfrei bleiben</a></p>
+    </div>
+    <Sources keys={['rockstar', 'vice', 'pcgamer', 'ytstream']} />
+  </div>
+</Base>
+<script>
+  import { initTime } from '../scripts/time';
+  document.addEventListener('astro:page-load', initTime);
+</script>

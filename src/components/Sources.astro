@@ -1,0 +1,14 @@
+---
+import { SOURCES, SOURCE_ORDER, UPDATED, fmtDate, type SourceKey } from '../data/facts';
+interface Props { keys: SourceKey[] }
+const keys = [...new Set(Astro.props.keys)].sort((a, b) => SOURCE_ORDER.indexOf(a) - SOURCE_ORDER.indexOf(b));
+---
+<section class="sources reveal" aria-labelledby="q-title">
+  <h2 id="q-title" class="eyebrow">Quellen</h2>
+  <ol>
+    {keys.map((k) => (
+      <li value={SOURCE_ORDER.indexOf(k) + 1}><a href={SOURCES[k].url} target="_blank" rel="noopener">{SOURCES[k].name}</a></li>
+    ))}
+  </ol>
+  <p class="muted small">Zuletzt geprüft am {fmtDate(UPDATED)}. Fehler gefunden? Wir korrigieren am selben Tag.</p>
+</section>

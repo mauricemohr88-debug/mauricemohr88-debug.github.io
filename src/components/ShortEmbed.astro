@@ -1,0 +1,17 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+interface Props { id: string; title: string; guide: string; poster: ImageMetadata }
+const { id, title, guide, poster } = Astro.props;
+---
+<article class="short-embed">
+  <div class="short-frame" data-yt={id}>
+    <Image src={poster} alt="" widths={[360, 540]} sizes="(min-width: 900px) 25vw, 50vw" />
+    <button class="short-play" type="button" aria-label={`Video abspielen: ${title}`}>
+      <span class="play-ring"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>
+      <span class="play-note">Lädt YouTube nach Klick</span>
+    </button>
+  </div>
+  <h3>{title}</h3>
+  <a class="link-arrow" href={guide}>Guide dazu <Icon name="arrow-right" size={14} /></a>
+</article>

@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Fact from '../components/Fact.astro';
+import Sources from '../components/Sources.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="PS5-Checkliste für GTA 6" description="So machst du deine PS5 bereit für GTA 6: 212 GB Speicher, Vorab-Download, Systemupdate. Zum Abhaken.">
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <div class="crumb"><a href="/">Start</a> / PS5-Check</div>
+      <h1>PS5 bereit<br />für <span class="sun-text">Vice City</span></h1>
+      <p class="lead">Fünf Punkte. Hak ab, was erledigt ist. Dein Fortschritt bleibt in diesem Browser gespeichert.</p>
+    </header>
+    <div class="prose">
+      <div class="progress"><i></i></div>
+      <p class="cd-note" data-count></p>
+      <ul class="check">
+        <li><span class="box"><Icon name="check" size={18} /></span><div><strong>Mindestens 212 GB frei machen</strong><span class="muted"><Fact k="storage" /></span></div></li>
+        <li><span class="box"><Icon name="check" size={18} /></span><div><strong>Vorab-Download prüfen</strong><span class="muted"><Fact k="preload" /></span></div></li>
+        <li><span class="box"><Icon name="check" size={18} /></span><div><strong>Systemsoftware aktualisieren</strong><span class="muted">Unter Einstellungen → System → Systemsoftware. Ein ausstehendes Update kann den Start verzögern.</span></div></li>
+        <li><span class="box"><Icon name="check" size={18} /></span><div><strong>Startzeit kennen</strong><span class="muted"><Fact k="midnight" /> <a href="/startzeiten/">Deine Uhrzeit</a></span></div></li>
+        <li><span class="box"><Icon name="check" size={18} /></span><div><strong>Spoiler-Schutz einrichten</strong><span class="muted">Neuseeland spielt Stunden vor uns. <a href="/spoilerfrei/">So geht's</a></span></div></li>
+      </ul>
+    </div>
+    <Sources keys={['vice', 'rockstar', 'pcgamer']} />
+  </div>
+</Base>
+<script>
+  document.addEventListener('astro:page-load', () => {
+  const list = document.querySelector('.check');
+  if (!list || list.hasAttribute('data-ready')) return;
+  list.setAttribute('data-ready', '');
+  {
+    const key = 'check:ps5';
+    let saved: boolean[] = [];
+    try { saved = JSON.parse(localStorage.getItem(key) || '[]'); } catch {}
+    const items = [...list.querySelectorAll<HTMLLIElement>('li')];
+    const bar = document.querySelector<HTMLElement>('.progress i');
+    const count = document.querySelector<HTMLElement>('[data-count]');
+    const update = () => {
+      const done = items.filter((li) => li.classList.contains('done')).length;
+      if (bar) bar.style.width = `${(done / items.length) * 100}%`;
+      if (count) count.textContent = `${done} von ${items.length} erledigt`;
+      try { localStorage.setItem(key, JSON.stringify(items.map((li) => li.classList.contains('done')))); } catch {}
+    };
+    items.forEach((li, i) => {
+      li.setAttribute('role', 'checkbox'); li.tabIndex = 0;
+      if (saved[i]) li.classList.add('done');
+      const sync = () => li.setAttribute('aria-checked', String(li.classList.contains('done')));
+      const toggle = (e: Event) => { if ((e.target as HTMLElement).closest('a')) return; li.classList.toggle('done'); sync(); update(); };
+      sync();
+      li.addEventListener('click', toggle);
+      li.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(e); } });
+    });
+    update();
+  }
+  });
+</script>

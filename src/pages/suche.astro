@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Suche" description="Durchsuche alle GTA-6-Guides auf Sechster Stern." noindex>
+  <div class="wrap">
+    <header class="page-head" data-hero>
+      <h1><span class="sun-text">Suche</span></h1>
+      <p class="lead">Figuren, Orte, Startzeiten, Details.</p>
+    </header>
+    <div class="search-wrap prose" id="search"></div>
+  </div>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.PagefindUI) new PagefindUI({ element: '#search', showSubResults: true, showImages: false,
+        translations: { placeholder: 'Suchen …', zero_results: 'Nichts gefunden für [SEARCH_TERM]', many_results: '[COUNT] Treffer für [SEARCH_TERM]', one_result: '1 Treffer für [SEARCH_TERM]', load_more: 'Mehr laden', clear_search: 'Löschen' } });
+      const q = new URLSearchParams(location.search).get('q'); const input = document.querySelector('#search input');
+      if (q && input) { input.value = q; input.dispatchEvent(new Event('input')); }
+    });
+  </script>
+</Base>
