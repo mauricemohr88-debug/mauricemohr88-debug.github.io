@@ -71,7 +71,7 @@ const ld = {
     </div>
   </header>
 
-  <main id="main" data-pagefind-body transition:animate="fade">
+  <main id="main" data-pagefind-body={noindex ? undefined : ""} transition:animate="fade">
     <span data-pagefind-meta="title" hidden>{title}</span>
     <slot />
   </main>
